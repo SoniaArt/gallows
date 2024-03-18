@@ -4,42 +4,41 @@
 #include <string.h>
 #include <ctime>
 #include <time.h>
-#include <ctype.h> //для toupper
 #include <Windows.h>
 #define MaxM 25
 void gallows(int tries) {
 	switch (tries) {
-	case 0: 
+	case 0:
 		printf("  _____\n");
 		printf(" |     |\n |\n |\n |\n");
 		printf("----------\n");
 		printf("\n");
 		break;
-	case 1: 
+	case 1:
 		printf("  _____\n");
 		printf(" |     |\n |     O\n |\n |\n");
 		printf("----------\n");
 		printf("\n");
 		break;
-	case 2: 
+	case 2:
 		printf("  _____\n");
 		printf(" |     |\n |     O\n |     |\n |\n");
 		printf("----------\n");
 		printf("\n");
 		break;
-	case 3: 
+	case 3:
 		printf("  _____\n");
 		printf(" |     |\n |     O\n |    /|\n |\n");
 		printf("----------\n");
 		printf("\n");
 		break;
-	case 4: 
+	case 4:
 		printf("  _____\n");
 		printf(" |     |\n |     O\n |    /|\\\n |\n");
 		printf("----------\n");
 		printf("\n");
 		break;
-	case 5: 
+	case 5:
 		printf("  _____\n");
 		printf(" |     |\n |     O\n |    /|\\\n |    /\n");
 		printf("----------\n");
@@ -50,7 +49,7 @@ void gallows(int tries) {
 		printf(" |     |\n |     O\n |    /|\\\n |    / \\\n");
 		printf("----------\n");
 		break;
-}
+	}
 
 }
 void Rules() {
@@ -70,6 +69,8 @@ void play() {
 	char word[20]; //слово, с которым работаем
 	char word_guess[20]; //маска для угадывания
 	int theme, tries = 0, MaxTries = 6, num_word, word_len, found = 0;
+	char input[MaxM] = { 0 };
+	int ind = 0;
 	do {
 		printf("Выберите тему: \n1.Города \n2.Животные \n3.Растения \n4.Страны\n");
 		printf("Ваш выбор: "); scanf_s("%d", &theme);
@@ -103,6 +104,10 @@ void play() {
 		char letter;//буква
 		int correct = 0;
 		int cnt_gallows[6] = { 0 };
+		printf("Вы использовали буквы: ");
+		for (int i = 0; i < MaxM; i++) {
+			if (input[i] != 0) { printf("%c", input[i]); }
+		}
 		printf("\nОтгаданное слово: %s\n", word_guess);
 		do {
 			getchar();
@@ -114,7 +119,7 @@ void play() {
 		if (letter == 'R') { Rules(); }
 		if (letter == 'N') { help(word_len); }
 		else {
-			if (letter >= 'а' && letter <= 'я') { letter -= 32; }
+			input[ind] = letter;
 			for (int i = 0; i < word_len; i++) {
 				if (word[i] == letter) {
 					word_guess[i] = letter;
@@ -129,8 +134,7 @@ void play() {
 			if (strcmp(word, word_guess) == 0) {
 				found = 1;
 			}
-			
-			
+			ind++;
 		}
 	}
 	if (found == 1) {
@@ -151,7 +155,7 @@ int main() {
 	do {
 		printf("Если вы хотите начать игру, введите 1. Если вы хотите выйти, введите 0: "); scanf_s("%d", &t);
 		switch (t) {
-		case 1: 
+		case 1:
 			Rules();
 			play(); break;
 		case 0: printf("Выход"); break;
