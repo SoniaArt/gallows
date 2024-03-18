@@ -7,18 +7,62 @@
 #include <ctype.h> //для toupper
 #include <Windows.h>
 #define MaxM 25
-//найти точно правильные правила
-//использовать псевдографику
-//разобраться с регистрами (чтобы оба учитывались)
+void gallows(int tries) {
+	switch (tries) {
+	case 0: 
+		printf("  _____\n");
+		printf(" |     |\n |\n |\n |\n");
+		printf("----------\n");
+		printf("\n");
+		break;
+	case 1: 
+		printf("  _____\n");
+		printf(" |     |\n |     O\n |\n |\n");
+		printf("----------\n");
+		printf("\n");
+		break;
+	case 2: 
+		printf("  _____\n");
+		printf(" |     |\n |     O\n |     |\n |\n");
+		printf("----------\n");
+		printf("\n");
+		break;
+	case 3: 
+		printf("  _____\n");
+		printf(" |     |\n |     O\n |    /|\n |\n");
+		printf("----------\n");
+		printf("\n");
+		break;
+	case 4: 
+		printf("  _____\n");
+		printf(" |     |\n |     O\n |    /|\\\n |\n");
+		printf("----------\n");
+		printf("\n");
+		break;
+	case 5: 
+		printf("  _____\n");
+		printf(" |     |\n |     O\n |    /|\\\n |    /\n");
+		printf("----------\n");
+		printf("\n");
+		break;
+	case 6:
+		printf("  _____\n");
+		printf(" |     |\n |     O\n |    /|\\\n |    / \\\n");
+		printf("----------\n");
+		break;
+}
+
+}
 void Rules() {
 	printf("  Правила игры: \n Игорк должен отдагать словно по буквам на выбранную тему.\n На это ему даётся 6 попыток. Если игрок ошибся 6 раз, то он проигрывает.\n");
-	printf("Для повторного обращения к правилам введите R в 'Введите букву'.\n");
+	printf("Вы можете вводить русские буквы в любом регистре.\n");
+	printf("Для повторного обращения к правилам введите R (англ) в 'Введите букву'.\n");
 }
 void play() {
-	char towns[5][MaxM] = { "Москва", "Владивосток", "Казань", "Омск", "Смоленск" };
-	char animals[5][MaxM] = { "Собака", "Мышь", "Кошка", "Курица", "Лошадь" };
-	char plants[5][MaxM] = { "Лилии", "Розы", "Хризантемы", "Пионы", "Тюльпаны" };
-	char countries[5][MaxM] = { "Аргентина", "Гаити", "Мадагаскар", "Турция", "Румыния" };
+	char towns[5][MaxM] = { "МОСКВА", "ВЛАДИВОСТОК", "КАЗАНЬ", "ОМСК", "СМОЛЕНСК" };
+	char animals[5][MaxM] = { "СОБАКА", "МЫШЬ", "КОШКА", "КУРИЦА", "ЛОШАДЬ" };
+	char plants[5][MaxM] = { "ЛИЛИИ", "РОЗЫ", "ХРИЗАНТЕМЫ", "ПИОНЫ", "ТЮЛЬПАНЫ" };
+	char countries[5][MaxM] = { "АРГЕНТИНА", "ГАИТИ", "МАДАГАСКАР", "ТУРЦИЯ", "РУМЫНИЯ" };
 	char word[20]; //слово, с которым работаем
 	char word_guess[20]; //маска для угадывания
 	int theme, tries = 0, MaxTries = 6, num_word, word_len, found = 0;
@@ -59,19 +103,22 @@ void play() {
 		scanf_s("%c", &letter);
 		if (letter == 'R') { Rules(); }
 		else {
+			if (letter >= 'а' && letter <= 'я') { letter -= 32; }
 			for (int i = 0; i < word_len; i++) {
-				if ((word[i] == letter) /*|| (word[i] == toupper(letter))*/) { //сделать, чтобы оба регистра учитывались, toupper тут не работает
+				if (word[i] == letter) {
 					word_guess[i] = letter;
 					correct = 1;
 				}
 			}
 			if (correct == 0) {
 				printf("Неверно. Осталось попыток: %d\n", MaxTries - tries - 1);
+				
 				tries++;
 			}
 			if (strcmp(word, word_guess) == 0) {
 				found = 1;
 			}
+			gallows(tries);
 		}
 	}
 	if (found == 1) {
