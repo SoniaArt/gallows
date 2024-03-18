@@ -104,9 +104,12 @@ void play() {
 		int correct = 0;
 		int cnt_gallows[6] = { 0 };
 		printf("\nОтгаданное слово: %s\n", word_guess);
-		getchar();
-		printf("Введите букву: ");
-		scanf_s("%c", &letter);
+		do {
+			getchar();
+			printf("Введите букву: ");
+			scanf_s("%c", &letter);
+			if ((letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'Z')) { printf("Используйте буквы русского языка.\n"); }
+		} while ((letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'Z'));
 		if (letter >= 'а' && letter <= 'я') { letter -= 32; }
 		if (letter == 'R') { Rules(); }
 		if (letter == 'N') { help(word_len); }
@@ -134,6 +137,7 @@ void play() {
 		printf("Вы отгадали слово! %s\n", word);
 	}
 	else {
+		gallows(6);
 		printf("Вы проиграли. Загаданное слово было: %s\n", word);
 	}
 }
@@ -147,7 +151,8 @@ int main() {
 	do {
 		printf("Если вы хотите начать игру, введите 1. Если вы хотите выйти, введите 0: "); scanf_s("%d", &t);
 		switch (t) {
-		case 1: Rules();
+		case 1: 
+			Rules();
 			play(); break;
 		case 0: printf("Выход"); break;
 		default: printf("Некорректный ввод. Повторите попытку.\n"); break;
