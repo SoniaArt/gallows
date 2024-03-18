@@ -7,15 +7,14 @@
 #include <ctype.h> //для toupper
 #include <Windows.h>
 #define MaxM 25
-//сделать прокрутку, бонусы, возможность обратиться к правилам в любой момент
 //найти точно правильные правила
 //использовать псевдографику
 //разобраться с регистрами (чтобы оба учитывались)
 void Rules() {
 	printf("  Правила игры: \n Игорк должен отдагать словно по буквам на выбранную тему.\n На это ему даётся 6 попыток. Если игрок ошибся 6 раз, то он проигрывает.\n");
+	printf("Для повторного обращения к правилам введите R в 'Введите букву'.\n");
 }
 void play() {
-	Rules();
 	char towns[5][MaxM] = { "Москва", "Владивосток", "Казань", "Омск", "Смоленск" };
 	char animals[5][MaxM] = { "Собака", "Мышь", "Кошка", "Курица", "Лошадь" };
 	char plants[5][MaxM] = { "Лилии", "Розы", "Хризантемы", "Пионы", "Тюльпаны" };
@@ -58,18 +57,21 @@ void play() {
 		getchar();
 		printf("Введите букву: ");
 		scanf_s("%c", &letter);
-		for (int i = 0; i < word_len; i++) {
-			if ((word[i] == letter) /*|| (word[i] == toupper(letter))*/) { //сделать, чтобы оба регистра учитывались, toupper тут не работает
-				word_guess[i] = letter;
-				correct = 1;
+		if (letter == 'R') { Rules(); }
+		else {
+			for (int i = 0; i < word_len; i++) {
+				if ((word[i] == letter) /*|| (word[i] == toupper(letter))*/) { //сделать, чтобы оба регистра учитывались, toupper тут не работает
+					word_guess[i] = letter;
+					correct = 1;
+				}
 			}
-		}
-		if (correct == 0) {
-			printf("Неверно. Осталось попыток: %d\n", MaxTries - tries - 1);
-			tries++;
-		}
-		if (strcmp(word, word_guess) == 0) {
-			found = 1;
+			if (correct == 0) {
+				printf("Неверно. Осталось попыток: %d\n", MaxTries - tries - 1);
+				tries++;
+			}
+			if (strcmp(word, word_guess) == 0) {
+				found = 1;
+			}
 		}
 	}
 	if (found == 1) {
@@ -89,7 +91,8 @@ int main() {
 	do {
 		printf("Если вы хотите начать игру, введите 1. Если вы хотите выйти, введите 0: "); scanf_s("%d", &t);
 		switch (t) {
-		case 1: play(); break;
+		case 1: Rules();
+			play(); break;
 		case 0: printf("Выход"); break;
 		default: printf("Некорректный ввод. Повторите попытку.\n"); break;
 		}
