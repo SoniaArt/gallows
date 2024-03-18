@@ -54,7 +54,7 @@ void gallows(int tries) {
 
 }
 void Rules() {
-	printf("  Правила игры: \n Игорк должен отдагать словно по буквам на выбранную тему.\n На это ему даётся 6 попыток. Если игрок ошибся 6 раз, то он проигрывает.\n");
+	printf("  Правила игры: \n Игрок должен отдагать слово по буквам на выбранную тему.\n На это ему даётся 6 попыток. Если игрок ошибся 6 раз, то он проигрывает.\n");
 	printf("Вы можете вводить русские буквы в любом регистре.\n");
 	printf("Для повторного обращения к правилам введите R (англ) в 'Введите букву'.\n");
 }
@@ -94,9 +94,11 @@ void play() {
 		word_guess[i] = '_';
 	}
 	word_guess[word_len] = '\0';
+	gallows(0);
 	while (tries < MaxTries && (found == 0)) {
 		char letter;//буква
 		int correct = 0;
+		int cnt_gallows[6] = { 0 };
 		printf("\nОтгаданное слово: %s\n", word_guess);
 		getchar();
 		printf("Введите букву: ");
@@ -112,13 +114,14 @@ void play() {
 			}
 			if (correct == 0) {
 				printf("Неверно. Осталось попыток: %d\n", MaxTries - tries - 1);
-				
 				tries++;
+				if (cnt_gallows[tries] == 0) { gallows(tries); cnt_gallows[tries] += 1; }
 			}
 			if (strcmp(word, word_guess) == 0) {
 				found = 1;
 			}
-			gallows(tries);
+			
+			
 		}
 	}
 	if (found == 1) {
