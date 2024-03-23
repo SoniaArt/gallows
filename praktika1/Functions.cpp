@@ -124,6 +124,14 @@ void play() {
                 i = -1;
             }
         }
+        while ((letter >= ' ' && letter <= '@') || (letter >= '[' && letter >= '`') || (letter >= '{' && letter >= '~'))
+        {
+            printf("Используйте буквы русского языка.\n");
+            printf("Введите букву: ");
+            getchar();
+            scanf_s("%c", &letter);
+        }
+        
         while ((letter >= 'a' && letter <= 'z') || (letter >= 'A' && letter <= 'M') || (letter >= 'O' && letter <= 'Q') || (letter >= 'S' && letter <= 'Z'))
         {
             printf("Используйте буквы русского языка.\n");
