@@ -13,9 +13,14 @@ int main() {
 	SetConsoleOutputCP(1251);
 	srand(time(NULL));
 	printf("                                                   Виселица\n");
-	int t;
+	char t;
 	do {
-		printf("Если вы хотите начать игру, введите 1. Если вы хотите выйти, введите 0: "); scanf_s("%d", &t);
+		printf("Если вы хотите начать игру, введите 1. Если вы хотите выйти, введите 0: "); 
+		do {
+			printf("Ваш выбор: "); scanf_s("%c", &t); getchar();
+			if (t < 48 || t > 49) { printf("Некорректный ввод. Повторите попытку\n"); getchar(); }
+		} while (t < 48 || t > 49);
+		t = t - '0';
 		switch (t) {
 		case 1:
 			Rules();
